@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Add Book
+{% endblock title %}
+
+{% block content %}
+    <div class="container">
+        <h1>Add a New Book</h1>
+        <form method="POST" action="">
+            {% csrf_token %}
+            {{ add_book_form.as_p }}
+            {{ add_book_form.non_field_errors }}
+            <input name="btn-one" class="btn btn-success" type="submit" value="Add book">
+        </form>
+    </div>
+
+    {% comment %} <div class="container">
+        <h1>Contact Form</h1>
+        <form action="" method="POST">
+            {% csrf_token %}
+            {{ contact_form.as_p }}
+            <input name="btn-two" class="btn btn-success" type="submit" value="Submit">
+        </form>
+    </div> {% endcomment %}
+{% endblock content %}

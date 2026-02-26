@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+    Book Page
+{% endblock title %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'book/css/book_page.css' %}">
+{% endblock css %}
+
+
+{% block content %}
+<div class="container book-manager-wrapper">
+    <div class="book-list-section">
+        <h2 class="book-list-header">Library Collection</h2>
+
+        <form method="get" class="row g-3 mb-4">
+            <div class="col-md-5">
+                <input name="search_book" type="search" class="form-control" placeholder="Search books by name..." value="{{ search_book|default:'' }}">
+            </div>
+            <div class="col-md-3">
+                <select name="genre" id="genre" class="form-select">
+                    <option value="">All Genres</option>
+                    {% for genre in genres %}
+                        <option value="{{ genre.id }}" {% if genre.id|stringformat:"s" == selected_genre %}selected{% endif %}>{{ genre.name }} ({{ genre.num_books }})</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-2">
+                <input name="year" type="number" class="form-control" placeholder="Year" value="{{ year|default:'' }}" min="1800">
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100">Find</button>
+            </div>
+        </form>
+
+        <div class="book-results">
+            {% for book in books %}
+                <div class="book-item">
+                    <div>
+                        <span class="book-title">
+                            <a href="{% url 'book_details' book.id %}">{{ book.title }}</a>
+                        </span>
+                        <div class="mt-1">
+                            <small class="text-muted">by</small> 
+                            <strong class="book-author">
+                                <a href="{% url 'author_details' book.author.id %}">{{ book.author.name }}</a>
+                            </strong>
+                        </div>
+                    </div>
+                    <div class="genre-list">
+                        {% for genre in book.genres.all %}
+                            <span class="genre-badge">{{ genre.name }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% empty %}
+                <div class="text-center py-5">
+                    <p class="text-muted">No books found in this section.</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock content %}

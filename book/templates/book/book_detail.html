@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+    Book Details
+{% endblock title %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'book/css/book_detail.css' %}">
+{% endblock css %}
+
+{% block content %}
+{% comment %} <nav class="navbar-custom">
+    <div class="container">
+        <a href="{% url 'dashboard' %}">Dashboard</a>
+        <a href="#">Search Book</a>
+    </div>
+</nav> {% endcomment %}
+
+<div class="book-container">
+    <a href="{% url 'dashboard' %}" class="nav-link">&larr; Back to Dashboard</a>
+    
+    {% if user.is_staff %}
+        <div class="mt-2 mb-3">
+            <a href="{% url 'edit_book' book.id %}" class="btn btn-warning btn-sm">Edit</a>
+            <a href="{% url 'delete_book' book.id %}" class="btn btn-danger btn-sm">Delete</a>
+        </div>
+    {% endif %}
+    
+    <h1 class="book-title">{{book.title}}</h1>
+    <h2 class="book-author">By <a href="{% url 'author_details' book.author.id %}">{{book.author}}</a></h2>
+    
+    <div class="book-meta">
+        <strong>Genres:</strong> 
+        {% for genre in book.genres.all %}
+            <span class="tag">{{ genre }}</span>
+        {% endfor %}
+    </div>
+    
+    <div class="book-meta">
+        <strong>Pages:</strong> {{book.pages}} | 
+        <strong>Published:</strong> {{book.published_date|date:"F d, Y"}}
+    </div>
+
+    <div class="description">
+        <h3>Description</h3>
+        <p>{{book.description}}</p>
+    </div>
+
+    <p style="font-size: 0.8em; color: #aaa; margin-top: 30px;">
+        Added: {{book.created_date|date:"M d, Y"}}
+    </p>
+</div>
+{% endblock content %}

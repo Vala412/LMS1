@@ -1,0 +1,192 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ author.name }} | Profile{% endblock title %}
+
+{% block css %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com">
+<style>
+    /* --- Modern Floating Navbar --- */
+.navbar-custom {
+    background: rgba(255, 255, 255, 0.8); /* Frosted Glass Effect */
+    backdrop-filter: blur(15px); /* Soft Blurry Background */
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Subtle Glass Border */
+    padding: 0.8rem 2rem;
+    margin: 20px auto;
+    width: 95%; /* Makes it look like a floating island */
+    max-width: 1200px;
+    border-radius: 50px; /* Modern Rounded Pill Shape */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 20px;
+    z-index: 1000;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* --- Navigation Links --- */
+.navbar-custom a {
+    color: #2c3e50; /* Elegant Dark Slate */
+    text-decoration: none;
+    margin: 0 15px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    position: relative;
+    padding: 8px 0;
+    transition: color 0.3s ease;
+}
+
+/* --- Animated Magic Underline --- */
+.navbar-custom a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background: linear-gradient(90deg, #6c5ce7, #a855f7); /* Vibrant Purple Gradient */
+    transition: width 0.3s ease;
+    border-radius: 2px;
+}
+
+.navbar-custom a:hover {
+    color: #6c5ce7;
+}
+
+.navbar-custom a:hover::after {
+    width: 100%; /* Line grows on hover */
+}
+
+/* --- Special Styling for Admin/Action Link --- */
+.navbar-custom a[href*="admin"] {
+    background: #6c5ce7;
+    color: white !important;
+    padding: 8px 20px;
+    border-radius: 25px;
+    margin-left: 10px;
+    box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+}
+
+.navbar-custom a[href*="admin"]:hover {
+    background: #5849c4;
+    transform: translateY(-2px);
+}
+
+.navbar-custom a[href*="admin"]::after {
+    display: none; /* No underline for button-style link */
+}
+    .author-container { max-width: 900px; margin: 40px auto; }
+    
+    /* Profile Header Card */
+    .author-card {
+        background: white;
+        border-radius: 24px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        border: 1px solid #f1f5f9;
+    }
+
+    .author-header {
+        background: linear-gradient(135deg, #6c5ce7 0%, #a855f7 100%);
+        padding: 60px 40px;
+        text-align: center;
+        color: white;
+    }
+
+    .author-header h1 { font-weight: 800; font-size: 2.5rem; margin-bottom: 10px; }
+    
+    /* Content Layout */
+    .author-body { padding: 40px; background: white; }
+
+    .bio-section { margin-bottom: 30px; line-height: 1.8; color: #475569; font-size: 1.1rem; }
+    
+    /* Info Grid */
+    .meta-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        padding-top: 30px;
+        border-top: 1px solid #f1f5f9;
+    }
+
+    .info-item {
+        background: #f8fafc;
+        padding: 15px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .info-item i { color: #6c5ce7; font-size: 1.2rem; }
+    .info-label { font-size: 0.8rem; color: #94a3b8; text-transform: uppercase; font-weight: 700; display: block; }
+    .info-value { color: #1e293b; font-weight: 600; }
+
+    .profile-extra {
+        margin-top: 20px;
+        padding: 20px;
+        background: rgba(108, 92, 231, 0.05);
+        border-radius: 12px;
+        border-left: 4px solid #6c5ce7;
+    }
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="author-container">
+    <div class="author-card">
+        <!-- Visual Header -->
+        <div class="author-header">
+            <div class="mb-3">
+                <i class="fas fa-user-circle fa-4x opacity-75"></i>
+            </div>
+            <h1>{{ author.name }}</h1>
+            <span class="badge rounded-pill bg-white text-primary px-3 py-2">Verified Author</span>
+        </div>
+
+        <div class="author-body">
+            <!-- Biography -->
+            <div class="bio-section">
+                <h5 class="fw-bold text-dark mb-3"><i class="fas fa-feather-alt me-2 text-primary"></i>Biography</h5>
+                <p>{{ author.profile.bio|default:"This author hasn't shared a biography yet." }}</p>
+            </div>
+
+            <!-- Profile Details If Exist -->
+            {% if author.profile %}
+            <div class="profile-extra mb-4">
+                <small class="info-label text-primary">Associated Profile</small>
+                <p class="mb-0 fw-bold">{{ author.profile.name }}</p>
+            </div>
+            {% endif %}
+
+            <!-- Metadata Grid -->
+            <div class="meta-grid">
+                <div class="info-item">
+                    <i class="fas fa-birthday-cake"></i>
+                    <div>
+                        <span class="info-label">Born</span>
+                        <span class="info-value">{{ author.birth_date|date:"F d, Y" }}</span>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-calendar-check"></i>
+                    <div>
+                        <span class="info-label">Member Since</span>
+                        <span class="info-value">{{ author.created_at|date:"M d, Y" }}</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Action Button -->
+            <div class="mt-5 text-center">
+                <a href="{% url 'dashboard' %}" class="btn btn-outline-primary px-4 py-2 rounded-pill">
+                    <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

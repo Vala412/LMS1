@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}My Profile{% endblock title %}
+
+{% block css %}
+    <style>
+        .profile-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .profile-info {
+            margin-bottom: 30px;
+        }
+        .profile-info h2 {
+            color: #333;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+        }
+        .info-row {
+            margin: 15px 0;
+        }
+        .info-row strong {
+            color: #555;
+        }
+        .author-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+    </style>
+{% endblock css %}
+
+{% block content %}
+    <div class="profile-container">
+        <h1>My Profile</h1>
+        
+        <div class="profile-info">
+            <h2>Account Information</h2>
+            <div class="info-row">
+                <strong>Username:</strong> {{ user.username }}
+            </div>
+            <div class="info-row">
+                <strong>Email:</strong> {{ user.email|default:"Not set" }}
+            </div>
+            <div class="info-row">
+                <strong>Member Since:</strong> {{ profile.date_joined|date:"F d, Y" }}
+            </div>
+        </div>
+
+        <div class="profile-info">
+            <h2>Bio</h2>
+            <p>{{ profile.bio|default:"No bio added yet." }}</p>
+        </div>
+
+        {% if author %}
+            <div class="author-section">
+                <h2>Author Profile</h2>
+                <div class="info-row">
+                    <strong>Author Name:</strong> <a href="{% url 'author_details' author.id %}">{{ author.name }}</a>
+                </div>
+                <div class="info-row">
+                    <strong>Birth Date:</strong> {{ author.birth_date|default:"Not specified" }}
+                </div>
+                <div class="info-row">
+                    <strong>Created:</strong> {{ author.created_at|date:"F d, Y" }}
+                </div>
+                
+                {% if user_books %}
+                    <div style="margin-top: 20px;">
+                        <h3>Your Books</h3>
+                        <ul class="list-group">
+                            {% for book in user_books %}
+                                <li class="list-group-item">
+                                    <a href="{% url 'book_details' book.id %}">{{ book.title }}</a>
+                                    <small class="text-muted">({{ book.published_date|date:"Y" }})</small>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% else %}
+                    <p class="text-muted">No books published yet.</p>
+                {% endif %}
+            </div>
+        {% else %}
+            <div class="alert alert-info">
+                You are not linked to an Author profile. Contact administration to set this up.
+            </div>
+        {% endif %}
+    </div>
+{% endblock content %}

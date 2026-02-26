@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Dashboard{% endblock title %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'book/css/index.css' %}">
+{% endblock css %}
+
+{% block content %}
+
+<div class="container book-manager-wrapper">
+    <div class="row text-center mb-5">
+        <div class="col-md-4">
+            <div class="stats-card p-3 shadow-sm bg-white rounded">
+                <h3>Total Books</h3>
+                <div class="count">{{ total_books }}</div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="stats-card p-3 shadow-sm bg-white rounded">
+                <h3>Total Authors</h3>
+                <div class="count">{{ total_authors }}</div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="stats-card p-3 shadow-sm bg-white rounded">
+                <h3>Total Genres</h3>
+                <div class="count">{{ total_genres }}</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Recent Books</h4>
+                </div>
+                <ul class="list-group list-group-flush">
+                    {% for book in recent_books %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <div class="fw-bold"><p><a href="{% url 'book_details' book.id %}">{{book.title}}</a></p></div>
+                                <span class="text-muted"><a href="{% url 'author_details' book.author.id %}">{{book.author}}</a></span>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    a {
+        text-decoration: none;
+        color: black;
+    }
+    .stats-card .count {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #007bff; 
+    }
+    
+    .mb-5 {
+        margin-bottom: 3rem !important; 
+    }
+</style>
+
+</div>
+
+{% endblock %}
+

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Profile Detail Page
+{% endblock title %}
+
+{% block content %}
+    <div>
+        <h1>{{ profile.user }}</h1>
+        <p>{{ profile.bio }}</p>
+        <div>
+            <span><strong>Member Since: </strong>{{profile.date_joined|date:"M d, Y"}}</span>
+        </div>
+    </div>
+{% endblock content %}

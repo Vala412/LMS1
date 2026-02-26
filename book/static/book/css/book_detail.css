@@ -1,0 +1,100 @@
+body { 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; margin: 0; padding: 0; 
+}
+
+.book-container { 
+    max-width: 900px; margin: 20px auto; background: #fff; padding: 40px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+}
+.nav-link {
+    text-decoration: none; color: #007bff; font-weight: bold; display: inline-block; margin-bottom: 20px; 
+}
+.nav-link:hover { 
+    color: #0056b3; 
+}
+.book-title { 
+    color: #333; font-size: 2.5em; margin-top: 0; border-bottom: 2px solid #eee; padding-bottom: 15px; 
+}
+.book-meta { 
+    color: #666; font-size: 1.1em; margin: 10px 0; 
+}
+.book-author { 
+    font-style: italic; color: #555; 
+}
+.tag { 
+    background: #e9ecef; padding: 5px 10px; border-radius: 15px; font-size: 0.85em; margin-right: 5px; 
+}
+.description { 
+    line-height: 1.8; color: #444; margin-top: 25px; padding: 20px; background: #f9f9f9; border-left: 4px solid #007bff; 
+}
+/* --- Modern Floating Navbar --- */
+.navbar-custom {
+    background: rgba(255, 255, 255, 0.8); /* Frosted Glass Effect */
+    backdrop-filter: blur(15px); /* Soft Blurry Background */
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Subtle Glass Border */
+    padding: 0.8rem 2rem;
+    margin: 20px auto;
+    width: 95%; /* Makes it look like a floating island */
+    max-width: 1200px;
+    border-radius: 50px; /* Modern Rounded Pill Shape */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 20px;
+    z-index: 1000;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* --- Navigation Links --- */
+.navbar-custom a {
+    color: #2c3e50; /* Elegant Dark Slate */
+    text-decoration: none;
+    margin: 0 15px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    position: relative;
+    padding: 8px 0;
+    transition: color 0.3s ease;
+}
+
+/* --- Animated Magic Underline --- */
+.navbar-custom a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background: linear-gradient(90deg, #6c5ce7, #a855f7); /* Vibrant Purple Gradient */
+    transition: width 0.3s ease;
+    border-radius: 2px;
+}
+
+.navbar-custom a:hover {
+    color: #6c5ce7;
+}
+
+.navbar-custom a:hover::after {
+    width: 100%; /* Line grows on hover */
+}
+
+/* --- Special Styling for Admin/Action Link --- */
+.navbar-custom a[href*="admin"] {
+    background: #6c5ce7;
+    color: white !important;
+    padding: 8px 20px;
+    border-radius: 25px;
+    margin-left: 10px;
+    box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+}
+
+.navbar-custom a[href*="admin"]:hover {
+    background: #5849c4;
+    transform: translateY(-2px);
+}
+
+.navbar-custom a[href*="admin"]::after {
+    display: none; /* No underline for button-style link */
+}

@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Contact Page
+{% endblock title %}
+
+{% block content %}
+    <form action="" method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        {% for field in form.fields %}
+            {% if field.errors %}
+                {% for error in field.errors %}
+                    <p style="color: red;">{{error}}</p>
+                {% endfor %}
+            {% endif %}
+        {% endfor %}
+        <input type="submit">
+    </form>
+
+    {% if flag %}
+        <div class="modal fade" id="responseModal" tabindex="-1" aria-labelledby="responseModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="responseModalLabel">Notification</h5>
+                        <!-- Use data-bs-dismiss="modal" for Bootstrap 5, data-dismiss="modal" for Bootstrap 4/3 -->
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="modal-body-content">
+                        <!-- The response message will be inserted here dynamically -->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock content %}
